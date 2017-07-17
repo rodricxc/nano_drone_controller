@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <package>
-  <name>nano_drone_controler</name>
+  <name>nano_drone_controller</name>
   <version>0.0.0</version>
-  <description>The nano_drone_controler package</description>
+  <description>The nano_drone_controller package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
   <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
-  <maintainer email="rodricxc@todo.todo">rodricxc</maintainer>
+  <maintainer email="rodrichaves2010@gmail.com">rodricxc</maintainer>
 
 
   <!-- One license tag required, multiple allowed, one license per tag -->
@@ -19,7 +19,7 @@
   <!-- Url tags are optional, but multiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/nano_drone_controler</url> -->
+  <!-- <url type="website">http://wiki.ros.org/nano_drone_controller</url> -->
 
 
   <!-- Author tags are optional, multiple are allowed, one per tag -->
