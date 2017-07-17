@@ -1,0 +1,14 @@
+<launch>
+
+  <arg name="js" default="/dev/input/js1" />
+  <arg name="frequency" default="100" />
+
+  <node pkg="joy" type="joy_node" name="joy_node" args="">
+      <param name="dev" type="str" value="$(arg js)" />
+  </node>
+
+  <node pkg="nano_drone_controller" type="commander.py" name="nano_drone_controller" output="screen" args="">
+      <param name="frequency" type="int" value="$(arg frequency)" />
+  </node>
+
+</launch>
