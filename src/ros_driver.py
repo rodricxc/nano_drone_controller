@@ -45,8 +45,7 @@ class NanoDriver(object):
 
     def commander_callback(self, data):
         """ data = {'throttle', 'roll', 'pitch', 'yaw'} """
-        print "Commander:\n", data
-        print "------------------------------"
+        print "Command received"
         self.update_control(data)
 
     def update_control(self, d):
@@ -67,8 +66,22 @@ class NanoDriver(object):
 
 
     def connect(self):
-        self.connect_tcp()
-        self.connect_udp()
+        connected = False
+        trys = 0
+
+        while not connected and trys < 20:
+            try:
+                trys += 1
+                self.connect_tcp()
+                self.connect_udp()
+                connected = True
+            except:
+                connected = False
+                print "ERROR on connecting to Nano Quad at {}. Trying again in 5 seconds".format(self._ip)
+                time.sleep(5.0)
+
+        if not connected:
+            raise Exception("Network error. Address not reachable")
 
     def connect_tcp(self):  # handshake
         print("Starting Handshake...")
@@ -109,16 +122,20 @@ class NanoDriver(object):
 
     def send_commands(self):
         cmds = self.get_controls_converted()
+        #print cmds
         self.cmd(r=cmds["roll"], p=cmds["pitch"], t=cmds["throttle"], y=cmds["yaw"])
-
+        print cmds
 
     def run(self):
         self.connect()
         self.rate.sleep()
 
         while not rospy.is_shutdown():
+            #t = time.time()
             self.send_commands()
+            #print "free time: ", time.time() - t
             self.rate.sleep()
+
 
 
 if __name__ == "__main__":

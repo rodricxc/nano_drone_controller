@@ -20,7 +20,7 @@
     </node>
 
     <node pkg="nano_drone_controller" type="ros_driver.py" name="nano_drone_driver" output="screen" args="">
-        <param name="frequency" type="int" value="200" />
+        <param name="frequency" type="int" value="50" />
         <param name="verbose" type="str" value="$(arg v)" />
     </node>
 
