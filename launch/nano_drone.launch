@@ -1,14 +1,27 @@
 <launch>
 
-  <arg name="js" default="/dev/input/js1" />
-  <arg name="frequency" default="100" />
+    <arg name="js" default="/dev/input/js1" />
+    <arg name="frequency" default="100" />
+    <arg name="sensibility" default="100" />
+    <arg name="v" default="" />
 
-  <node pkg="joy" type="joy_node" name="joy_node" args="">
-      <param name="dev" type="str" value="$(arg js)" />
-  </node>
+    <node pkg="joy" type="joy_node" name="joy_node" args="">
+        <param name="dev" type="str" value="$(arg js)" />
+    </node>
 
-  <node pkg="nano_drone_controller" type="commander.py" name="nano_drone_controller" output="screen" args="">
-      <param name="frequency" type="int" value="$(arg frequency)" />
-  </node>
+    <node pkg="nano_drone_controller" type="commander.py" name="nano_drone_controller" output="screen" args="">
+        <param name="frequency" type="int" value="$(arg frequency)" />
+        <param name="sensibility" type="double" value="$(arg sensibility)" />
+        <param name="channel_throttle" type="int" value="6" />
+        <param name="channel_yaw" type="int" value="5" />
+        <param name="channel_pitch" type="int" value="1" />
+        <param name="channel_roll" type="int" value="0" />
+        <param name="verbose" type="str" value="$(arg v)" />
+    </node>
+
+    <node pkg="nano_drone_controller" type="ros_driver.py" name="nano_drone_driver" output="screen" args="">
+        <param name="frequency" type="int" value="200" />
+        <param name="verbose" type="str" value="$(arg v)" />
+    </node>
 
 </launch>
