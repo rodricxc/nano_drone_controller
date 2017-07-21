@@ -45,7 +45,7 @@ class NanoDriver(object):
 
     def commander_callback(self, data):
         """ data = {'throttle', 'roll', 'pitch', 'yaw'} """
-        print "Command received"
+        #print "Command received"
         self.update_control(data)
 
     def update_control(self, d):
@@ -54,7 +54,7 @@ class NanoDriver(object):
         self.data_locker.release()
 
     def remap(self, val):
-        return int((val+1.0)*127.0)
+        return min(int((val+1.0)*128.0), 255)
 
     def get_controls_converted(self):
         self.data_locker.acquire()
@@ -69,7 +69,7 @@ class NanoDriver(object):
         connected = False
         trys = 0
 
-        while not connected and trys < 20:
+        while not connected and trys < 20 and not rospy.is_shutdown():
             try:
                 trys += 1
                 self.connect_tcp()
@@ -80,6 +80,8 @@ class NanoDriver(object):
                 print "ERROR on connecting to Nano Quad at {}. Trying again in 5 seconds".format(self._ip)
                 time.sleep(5.0)
 
+        if rospy.is_shutdown():
+            exit(0)
         if not connected:
             raise Exception("Network error. Address not reachable")
 
@@ -122,9 +124,7 @@ class NanoDriver(object):
 
     def send_commands(self):
         cmds = self.get_controls_converted()
-        #print cmds
         self.cmd(r=cmds["roll"], p=cmds["pitch"], t=cmds["throttle"], y=cmds["yaw"])
-        print cmds
 
     def run(self):
         self.connect()

@@ -29,7 +29,7 @@ class NanoController(object):
         self.publisher_commander = rospy.Publisher('/nano_drone_driver/commander', Nanoquad, queue_size=1)
 
     def joy_callback(self, data):
-        # print "Joy:", data.axes
+        print "Joy:", data.axes
         """['throttle', 'roll', 'pitch', 'yaw']"""
         self.nano_msg[0] = data.axes[self.param["channel_throttle"]]
         self.nano_msg[1] = data.axes[self.param["channel_roll"]]
